@@ -2,7 +2,11 @@ package programmer.zaman.now.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class ConnectionPoolTest {
 
@@ -20,10 +24,17 @@ public class ConnectionPoolTest {
         config.setIdleTimeout(60_000);
         config.setMaxLifetime(10 * 60_000);
 
-        // membuat connection pool
-        HikariDataSource dataSource = new HikariDataSource(config);
+        try {
+            // membuat connection pool
+            HikariDataSource dataSource = new HikariDataSource(config);
 
-        // membuat connection
-        dataSource.getConnection();
+            // membuat connection
+            Connection connection = dataSource.getConnection();
+
+            connection.close();
+            dataSource.close();
+        } catch (SQLException exception) {
+            Assertions.fail(exception);
+        }
     }
 }
