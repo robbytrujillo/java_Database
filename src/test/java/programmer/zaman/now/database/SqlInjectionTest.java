@@ -20,7 +20,7 @@ public class SqlInjectionTest {
         String password = "admin";
 
         String sql = "SELECT * FROM admin WHERE username = '" + username +
-                "' AND password '" + password + "'";
+                "' AND password = '" + password + "'";
 
         ResultSet resultSet = statement.executeQuery(sql);
 
