@@ -16,11 +16,14 @@ public class SqlInjectionTest {
 
         Statement statement = connection.createStatement();
 
-        String username = "admin";
-        String password = "admin";
+        // String username = "admin'; #"; -> salah satu perintah sql injection
+        String username = "admin'; #";
+        String password = "salah";
 
         String sql = "SELECT * FROM admin WHERE username = '" + username +
                 "' AND password = '" + password + "'";
+
+        System.out.println(sql);
 
         ResultSet resultSet = statement.executeQuery(sql);
 
