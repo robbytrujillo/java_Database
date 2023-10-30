@@ -41,7 +41,7 @@ public class MetaDataTest {
     void testResultSetMetaData() throws SQLException {
         Connection connection = ConnectionUtil.getDataSource().getConnection();
         Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM customers");
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM sample_time");
 
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
@@ -49,7 +49,12 @@ public class MetaDataTest {
             System.out.println("Name : " + resultSetMetaData.getColumnName(i));
             System.out.println("Type : " + resultSetMetaData.getColumnType(i));
             System.out.println("Type Name : " + resultSetMetaData.getColumnTypeName(i));
+
+            if (resultSetMetaData.getColumnType(i) == Types.INTEGER) {
+                System.out.println("Ini INTEGER");
+            }
         }
+
 
         resultSet.close();
         statement.close();
