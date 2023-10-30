@@ -11,19 +11,19 @@ public class TransactionTest {
     @Test
     void testCommit() throws SQLException {
         Connection connection = ConnectionUtil.getDataSource().getConnection();
+        connection.setAutoCommit(false);
 
         String sql = "INSERT INTO comments (email, comment) VALUES (?, ?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
         for (int i = 0; i < 100; i++) {
-            preparedStatement.clearParameters();
+            PreparedStatement preparedStatement =  connection.prepareStatement(sql);
             preparedStatement.setString(1, "robby@mail.com");
             preparedStatement.setString(2, "Hay");
-            preparedStatement.addBatch();
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
         }
 
-        preparedStatement.executeBatch();
-        preparedStatement.close();
+        connection.commit();
         connection.close();
     }
 }
