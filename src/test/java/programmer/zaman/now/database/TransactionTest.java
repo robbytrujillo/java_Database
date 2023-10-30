@@ -26,4 +26,23 @@ public class TransactionTest {
         connection.commit();
         connection.close();
     }
+
+    @Test
+    void testRollback() throws SQLException {
+        Connection connection = ConnectionUtil.getDataSource().getConnection();
+        connection.setAutoCommit(false);
+
+        String sql = "INSERT INTO comments (email, comment) VALUES (?, ?)";
+
+        for (int i = 0; i < 100; i++) {
+            PreparedStatement preparedStatement =  connection.prepareStatement(sql);
+            preparedStatement.setString(1, "robby@mail.com");
+            preparedStatement.setString(2, "Hay");
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        }
+
+        connection.rollback();
+        connection.close();
+    }
 }
