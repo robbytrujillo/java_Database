@@ -55,7 +55,6 @@ public class MetaDataTest {
             }
         }
 
-
         resultSet.close();
         statement.close();
         connection.close();
